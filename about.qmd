@@ -2,4 +2,14 @@
 title: "About"
 ---
 
-About this site
+## Background
+
+I completed a PhD in Educational Psychology at Simon Fraser University (SFU) and was a research visitor at the University of California, Berkeley. I have experience in research, instructional design, and academic data analysis.
+
+## Why data science
+
+I joined the MDS program to strengthen my skills in programming, statistics, machine learning, and reproducible data analysis.
+
+## Outside of data science
+
+Outside of data science, I enjoy traveling, exploring new places, staying active, and spending time with family and friends.

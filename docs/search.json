@@ -25,6 +25,27 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site"
+    "text": "I completed a PhD in Educational Psychology at Simon Fraser University (SFU) and was a research visitor at the University of California, Berkeley. I have experience in research, instructional design, and academic data analysis."
+  },
+  {
+    "objectID": "about.html#background",
+    "href": "about.html#background",
+    "title": "About",
+    "section": "",
+    "text": "I completed a PhD in Educational Psychology at Simon Fraser University (SFU) and was a research visitor at the University of California, Berkeley. I have experience in research, instructional design, and academic data analysis."
+  },
+  {
+    "objectID": "about.html#why-data-science",
+    "href": "about.html#why-data-science",
+    "title": "About",
+    "section": "Why data science",
+    "text": "Why data science\nI joined the MDS program to strengthen my skills in programming, statistics, machine learning, and reproducible data analysis."
+  },
+  {
+    "objectID": "about.html#outside-of-data-science",
+    "href": "about.html#outside-of-data-science",
+    "title": "About",
+    "section": "Outside of data science",
+    "text": "Outside of data science\nOutside of data science, I enjoy traveling, exploring new places, staying active, and spending time with family and friends."
   }
 ]
