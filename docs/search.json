@@ -1,10 +1,10 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
     "section": "",
-    "text": "About this site"
+    "text": "My First Week in the MDS Program\n\n\n\n\n\n\n\n\nSep 10, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -12,5 +12,19 @@
     "title": "Teeba Obaid",
     "section": "",
     "text": "Hello! I’m Teeba Obaid. I am a Master of Data Science student at the University of British Columbia. Before MDS, I completed a PhD in Educational Psychology and developed experience in research, instructional design, and data analysis through my academic work. I am especially interested in machine learning and hope to continue building my skills for data science and machine learning roles."
+  },
+  {
+    "objectID": "posts/first-weeks/index.html",
+    "href": "posts/first-weeks/index.html",
+    "title": "My First Week in the MDS Program",
+    "section": "",
+    "text": "Starting the Master of Data Science program at the University of British Columbia has marked an important transition in my academic and professional development. Building on the research, instructional design, and academic data analysis experience I developed during my PhD in Educational Psychology, I am now expanding my skills through graduate training in data science.\nDuring the first week of the program, I have been developing practical experience with Python, R, Git, GitHub, Quarto, probability, and reproducible data analysis. I have also been learning how to use Git and GitHub to track changes to my work and how to build and publish a website using Quarto and GitHub Pages.\n\n\n\nMy first weeks in MDS.\n\n\nMy longer-term goal is to build strong expertise in machine learning and applied data science. I am particularly interested in combining my research background with computational and statistical methods to solve real-world problems. This portfolio will document my progress through the MDS program and provide examples of the technical and analytical skills I continue to develop."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
   }
 ]
