@@ -1,0 +1,116 @@
+---
+title: "Exploring Penguin Measurements in R"
+author: "Teeba Obaid"
+date: 2026-09-22
+categories: [R, Data Analysis, Visualization]
+---
+
+## Introduction
+
+In this post, I explore the penguins dataset using R. I use the data and plotting techniques from my DSCI 523 R Programming lab to compare penguin measurements across species.
+
+I focus on the relationship between bill length and body mass. I also explore how the order of species categories affects the presentation of a plot.
+
+## Data Source
+
+I use the `penguins` dataset from the `palmerpenguins` R package. I worked with this dataset in DSCI 523 R Programming.
+
+The dataset contains measurements of Adelie, Chinstrap, and Gentoo penguins.
+
+## Loading the Data
+
+First, I load the packages and display the first six rows of the dataset.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(palmerpenguins)
+library(ggplot2)
+library(dplyr)
+
+head(penguins)
+```
+
+## Comparing Penguin Species
+
+I first compare the average bill length and body mass of the three penguin species. I remove missing values so they do not affect the calculations.
+
+```{r}
+penguin_summary <- penguins |>
+  group_by(species) |>
+  summarize(
+    mean_bill_length = mean(bill_length_mm, na.rm = TRUE),
+    mean_body_mass = mean(body_mass_g, na.rm = TRUE)
+  )
+
+penguin_summary
+```
+
+### What the Summary Shows
+
+Gentoo penguins have the highest average body mass, while Chinstrap penguins have the longest average bill length. Adelie penguins have the shortest average bill length of the three species.
+
+## Bill Length and Body Mass
+
+I use a scatter plot to compare bill length and body mass. Each colour represents a different penguin species.
+
+```{r}
+penguins_original <- ggplot(
+  data = penguins,
+  mapping = aes(
+    x = bill_length_mm,
+    y = body_mass_g,
+    colour = species
+  )
+) +
+  geom_point(size = 2) +
+  xlab("Bill length (mm)") +
+  ylab("Body mass (g)") +
+  theme_bw() +
+  theme(text = element_text(size = 18))
+
+penguins_original
+```
+
+### What the Scatter Plot Shows
+
+The scatter plot shows a positive relationship between bill length and body mass within the penguin species. Gentoo penguins generally have a higher body mass than the other two species. Adelie penguins tend to have shorter bills, while Chinstrap penguins have longer bills but lower body mass than Gentoo penguins.
+
+## Changing the Order of Penguin Species
+
+I use `fct_relevel()` to change the order of the species in the plot legend. I put Gentoo first, followed by Chinstrap and Adelie.
+
+```{r}
+penguins_reordered <- penguins |>
+  mutate(
+    species = forcats::fct_relevel(
+      species,
+      "Gentoo",
+      "Chinstrap",
+      "Adelie"
+    )
+  )
+
+penguins_reordered_plot <- ggplot(
+  data = penguins_reordered,
+  mapping = aes(
+    x = bill_length_mm,
+    y = body_mass_g,
+    colour = species
+  )
+) +
+  geom_point(size = 2, na.rm = TRUE) +
+  xlab("Bill length (mm)") +
+  ylab("Body mass (g)") +
+  theme_bw() +
+  theme(text = element_text(size = 18))
+
+penguins_reordered_plot
+```
+
+## What I Learned
+
+Changing the order of a factor changes how the species appear in the plot legend. It can also change which colour is assigned to each species. The penguin measurements and the positions of the points stay the same.
+
+This exercise helped me understand how factor levels affect the presentation of a plot in R.

@@ -1,0 +1,111 @@
+---
+title: "Exploring Beach Width Changes Over Time"
+author: "Teeba Obaid"
+date: 2026-09-22
+categories:
+  - Python
+  - Data Analysis
+  - Visualization
+---
+
+## Introduction
+
+In this post, I use Python to explore beach measurements over time. I use pandas to calculate monthly averages and see how the measurements at each location compare with their overall average. I also use Altair to create a graph and look at how the measurements change over time.
+
+## Data Source
+
+The data comes from the [Narrabeen beach survey dataset](http://narrabeen.wrl.unsw.edu.au), which contains beach width measurements from five locations at Narrabeen Beach in New South Wales, Australia, between 1980 and 2019. I used the `beach_data.csv` file provided in DSCI 511 Worksheet 7 for this analysis.
+
+The original dataset is described in Turner, I. L., Harley, M. D., Short, A. D., et al. (2016). *A multi-decade dataset of monthly beach profile surveys and inshore wave forcing at Narrabeen, Australia*. Scientific Data, 3, 160024.
+
+## Reading the Data
+
+I first read the CSV file into a pandas dataframe. I use the first column as the index and tell pandas to recognize the dates.
+
+```{python}
+import pandas as pd
+
+beach_df = pd.read_csv(
+    "beach_data.csv",
+    index_col=0,
+    parse_dates=True
+)
+
+beach_df.head()
+```
+
+## Monthly Averages
+
+The beach measurements were recorded at irregular intervals. I use `resample("MS")` to group them by month and calculate the average measurement at each location.
+
+```{python}
+beach_monthly = beach_df.resample("MS").mean()
+
+beach_monthly.head()
+```
+
+## Comparing Measurements with the Average
+
+I subtract each location's overall monthly average from its monthly measurements. A negative value means the measurement was below that location's average, while a positive value means it was above average.
+
+```{python}
+beach_difference = beach_monthly - beach_monthly.mean()
+
+beach_difference.head()
+```
+
+## Preparing the Data for Visualization
+
+I reshape the data so that each row contains a date, a location, and its measurement difference. This will let me display all five locations in one graph.
+
+```{python}
+beach_long = (
+    beach_difference
+    .reset_index()
+    .melt(
+        id_vars="index",
+        var_name="location",
+        value_name="difference"
+    )
+)
+
+beach_long.head()
+```
+
+## Visualizing Beach Width Changes
+
+I use a heatmap to compare monthly beach measurements across the five locations. Each row represents one location, and each coloured cell represents one month. Blue indicates a measurement above that location's overall average, while red indicates a measurement below its average.
+
+```{python}
+import altair as alt
+
+beach_chart = (
+    alt.Chart(beach_long)
+    .mark_rect()
+    .encode(
+        x=alt.X("yearmonth(index):O", title="Month"),
+        y=alt.Y("location:N", title="Beach location"),
+        color=alt.Color(
+            "difference:Q",
+            title="Difference from average",
+            scale=alt.Scale(scheme="redblue", domainMid=0)
+        ),
+        tooltip=[
+            alt.Tooltip("index:T", title="Month", format="%B %Y"),
+            alt.Tooltip("location:N", title="Location"),
+            alt.Tooltip("difference:Q", title="Difference", format=".1f")
+        ]
+    )
+    .properties(
+        title="Monthly Beach Measurements Relative to Average",
+        width=700,
+        height=180
+    )
+)
+
+beach_chart
+```
+
+## What I Learned
+
+The heatmap shows that beach measurements do not change in the same way at all five locations. Some months are above average at one location but below average at another. Comparing monthly differences from each location’s average shows how beach measurements change over time, while taking into account the different average measurements at the five locations.

@@ -4,7 +4,7 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "My First Week in the MDS Program\n\n\n\n\n\n\n\n\nSep 10, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Exploring Penguin Measurements in R\n\n\n\n\n\n\n\n\nSep 22, 2026\n\n\nTeeba Obaid\n\n\n\n\n\n\n\n\n\n\n\n\nExploring Beach Width Changes Over Time\n\n\n\n\n\n\n\n\nSep 22, 2026\n\n\nTeeba Obaid\n\n\n\n\n\n\n\n\n\n\n\n\nMy First Week in the MDS Program\n\n\n\n\n\n\n\n\nSep 10, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -14,11 +14,130 @@
     "text": "Hello! I’m Teeba Obaid. I am a Master of Data Science student at the University of British Columbia. Before MDS, I completed a PhD in Educational Psychology and developed experience in research, instructional design, and data analysis through my academic work. I am especially interested in machine learning and hope to continue building my skills for data science and machine learning roles."
   },
   {
+    "objectID": "posts/penguins-factor-analysis/index.html",
+    "href": "posts/penguins-factor-analysis/index.html",
+    "title": "Exploring Penguin Measurements in R",
+    "section": "",
+    "text": "In this post, I explore the penguins dataset using R. I use the data and plotting techniques from my DSCI 523 R Programming lab to compare penguin measurements across species.\nI focus on the relationship between bill length and body mass. I also explore how the order of species categories affects the presentation of a plot."
+  },
+  {
+    "objectID": "posts/penguins-factor-analysis/index.html#introduction",
+    "href": "posts/penguins-factor-analysis/index.html#introduction",
+    "title": "Exploring Penguin Measurements in R",
+    "section": "",
+    "text": "In this post, I explore the penguins dataset using R. I use the data and plotting techniques from my DSCI 523 R Programming lab to compare penguin measurements across species.\nI focus on the relationship between bill length and body mass. I also explore how the order of species categories affects the presentation of a plot."
+  },
+  {
+    "objectID": "posts/penguins-factor-analysis/index.html#data-source",
+    "href": "posts/penguins-factor-analysis/index.html#data-source",
+    "title": "Exploring Penguin Measurements in R",
+    "section": "Data Source",
+    "text": "Data Source\nI use the penguins dataset from the palmerpenguins R package. I worked with this dataset in DSCI 523 R Programming.\nThe dataset contains measurements of Adelie, Chinstrap, and Gentoo penguins."
+  },
+  {
+    "objectID": "posts/penguins-factor-analysis/index.html#loading-the-data",
+    "href": "posts/penguins-factor-analysis/index.html#loading-the-data",
+    "title": "Exploring Penguin Measurements in R",
+    "section": "Loading the Data",
+    "text": "Loading the Data\nFirst, I load the packages and display the first six rows of the dataset.\n\nlibrary(palmerpenguins)\nlibrary(ggplot2)\nlibrary(dplyr)\n\nhead(penguins)\n\n# A tibble: 6 × 8\n  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g\n  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;\n1 Adelie  Torgersen           39.1          18.7               181        3750\n2 Adelie  Torgersen           39.5          17.4               186        3800\n3 Adelie  Torgersen           40.3          18                 195        3250\n4 Adelie  Torgersen           NA            NA                  NA          NA\n5 Adelie  Torgersen           36.7          19.3               193        3450\n6 Adelie  Torgersen           39.3          20.6               190        3650\n# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;"
+  },
+  {
+    "objectID": "posts/penguins-factor-analysis/index.html#comparing-penguin-species",
+    "href": "posts/penguins-factor-analysis/index.html#comparing-penguin-species",
+    "title": "Exploring Penguin Measurements in R",
+    "section": "Comparing Penguin Species",
+    "text": "Comparing Penguin Species\nI first compare the average bill length and body mass of the three penguin species. I remove missing values so they do not affect the calculations.\n\npenguin_summary &lt;- penguins |&gt;\n  group_by(species) |&gt;\n  summarize(\n    mean_bill_length = mean(bill_length_mm, na.rm = TRUE),\n    mean_body_mass = mean(body_mass_g, na.rm = TRUE)\n  )\n\npenguin_summary\n\n# A tibble: 3 × 3\n  species   mean_bill_length mean_body_mass\n  &lt;fct&gt;                &lt;dbl&gt;          &lt;dbl&gt;\n1 Adelie                38.8          3701.\n2 Chinstrap             48.8          3733.\n3 Gentoo                47.5          5076.\n\n\n\nWhat the Summary Shows\nGentoo penguins have the highest average body mass, while Chinstrap penguins have the longest average bill length. Adelie penguins have the shortest average bill length of the three species."
+  },
+  {
+    "objectID": "posts/penguins-factor-analysis/index.html#bill-length-and-body-mass",
+    "href": "posts/penguins-factor-analysis/index.html#bill-length-and-body-mass",
+    "title": "Exploring Penguin Measurements in R",
+    "section": "Bill Length and Body Mass",
+    "text": "Bill Length and Body Mass\nI use a scatter plot to compare bill length and body mass. Each colour represents a different penguin species.\n\npenguins_original &lt;- ggplot(\n  data = penguins,\n  mapping = aes(\n    x = bill_length_mm,\n    y = body_mass_g,\n    colour = species\n  )\n) +\n  geom_point(size = 2) +\n  xlab(\"Bill length (mm)\") +\n  ylab(\"Body mass (g)\") +\n  theme_bw() +\n  theme(text = element_text(size = 18))\n\npenguins_original\n\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\nWhat the Scatter Plot Shows\nThe scatter plot shows a positive relationship between bill length and body mass within the penguin species. Gentoo penguins generally have a higher body mass than the other two species. Adelie penguins tend to have shorter bills, while Chinstrap penguins have longer bills but lower body mass than Gentoo penguins."
+  },
+  {
+    "objectID": "posts/penguins-factor-analysis/index.html#changing-the-order-of-penguin-species",
+    "href": "posts/penguins-factor-analysis/index.html#changing-the-order-of-penguin-species",
+    "title": "Exploring Penguin Measurements in R",
+    "section": "Changing the Order of Penguin Species",
+    "text": "Changing the Order of Penguin Species\nI use fct_relevel() to change the order of the species in the plot legend. I put Gentoo first, followed by Chinstrap and Adelie.\n\npenguins_reordered &lt;- penguins |&gt;\n  mutate(\n    species = forcats::fct_relevel(\n      species,\n      \"Gentoo\",\n      \"Chinstrap\",\n      \"Adelie\"\n    )\n  )\n\npenguins_reordered_plot &lt;- ggplot(\n  data = penguins_reordered,\n  mapping = aes(\n    x = bill_length_mm,\n    y = body_mass_g,\n    colour = species\n  )\n) +\n  geom_point(size = 2, na.rm = TRUE) +\n  xlab(\"Bill length (mm)\") +\n  ylab(\"Body mass (g)\") +\n  theme_bw() +\n  theme(text = element_text(size = 18))\n\npenguins_reordered_plot"
+  },
+  {
+    "objectID": "posts/penguins-factor-analysis/index.html#what-i-learned",
+    "href": "posts/penguins-factor-analysis/index.html#what-i-learned",
+    "title": "Exploring Penguin Measurements in R",
+    "section": "What I Learned",
+    "text": "What I Learned\nChanging the order of a factor changes how the species appear in the plot legend. It can also change which colour is assigned to each species. The penguin measurements and the positions of the points stay the same.\nThis exercise helped me understand how factor levels affect the presentation of a plot in R."
+  },
+  {
     "objectID": "posts/first-weeks/index.html",
     "href": "posts/first-weeks/index.html",
     "title": "My First Week in the MDS Program",
     "section": "",
     "text": "Starting the Master of Data Science program at the University of British Columbia has marked an important transition in my academic and professional development. Building on the research, instructional design, and academic data analysis experience I developed during my PhD in Educational Psychology, I am now expanding my skills through graduate training in data science.\nDuring the first week of the program, I have been developing practical experience with Python, R, Git, GitHub, Quarto, probability, and reproducible data analysis. I have also been learning how to use Git and GitHub to track changes to my work and how to build and publish a website using Quarto and GitHub Pages.\n\n\n\nMy first weeks in MDS.\n\n\nMy longer-term goal is to build strong expertise in machine learning and applied data science. I am particularly interested in combining my research background with computational and statistical methods to solve real-world problems. This portfolio will document my progress through the MDS program and provide examples of the technical and analytical skills I continue to develop."
+  },
+  {
+    "objectID": "posts/beach-width-analysis/index.html",
+    "href": "posts/beach-width-analysis/index.html",
+    "title": "Exploring Beach Width Changes Over Time",
+    "section": "",
+    "text": "In this post, I use Python to explore beach measurements over time. I use pandas to calculate monthly averages and see how the measurements at each location compare with their overall average. I also use Altair to create a graph and look at how the measurements change over time."
+  },
+  {
+    "objectID": "posts/beach-width-analysis/index.html#introduction",
+    "href": "posts/beach-width-analysis/index.html#introduction",
+    "title": "Exploring Beach Width Changes Over Time",
+    "section": "",
+    "text": "In this post, I use Python to explore beach measurements over time. I use pandas to calculate monthly averages and see how the measurements at each location compare with their overall average. I also use Altair to create a graph and look at how the measurements change over time."
+  },
+  {
+    "objectID": "posts/beach-width-analysis/index.html#data-source",
+    "href": "posts/beach-width-analysis/index.html#data-source",
+    "title": "Exploring Beach Width Changes Over Time",
+    "section": "Data Source",
+    "text": "Data Source\nThe data comes from the Narrabeen beach survey dataset, which contains beach width measurements from five locations at Narrabeen Beach in New South Wales, Australia, between 1980 and 2019. I used the beach_data.csv file provided in DSCI 511 Worksheet 7 for this analysis.\nThe original dataset is described in Turner, I. L., Harley, M. D., Short, A. D., et al. (2016). A multi-decade dataset of monthly beach profile surveys and inshore wave forcing at Narrabeen, Australia. Scientific Data, 3, 160024."
+  },
+  {
+    "objectID": "posts/beach-width-analysis/index.html#reading-the-data",
+    "href": "posts/beach-width-analysis/index.html#reading-the-data",
+    "title": "Exploring Beach Width Changes Over Time",
+    "section": "Reading the Data",
+    "text": "Reading the Data\nI first read the CSV file into a pandas dataframe. I use the first column as the index and tell pandas to recognize the dates.\n\nimport pandas as pd\n\nbeach_df = pd.read_csv(\n    \"beach_data.csv\",\n    index_col=0,\n    parse_dates=True\n)\n\nbeach_df.head()\n\n\n\n\n\n\n\n\nlocation_1\nlocation_2\nlocation_3\nlocation_4\nlocation_5\n\n\n\n\n1980-01-15\n99.4\n75.0\n92.5\n27.5\n63.4\n\n\n1980-02-22\n98.9\n77.3\n92.6\n24.5\n63.2\n\n\n1980-03-14\n95.2\n76.8\n93.8\n29.3\n71.3\n\n\n1980-04-11\n99.9\n67.7\n102.5\n27.8\n72.4\n\n\n1980-05-23\n80.7\n63.9\n82.5\n12.5\n73.3"
+  },
+  {
+    "objectID": "posts/beach-width-analysis/index.html#monthly-averages",
+    "href": "posts/beach-width-analysis/index.html#monthly-averages",
+    "title": "Exploring Beach Width Changes Over Time",
+    "section": "Monthly Averages",
+    "text": "Monthly Averages\nThe beach measurements were recorded at irregular intervals. I use resample(\"MS\") to group them by month and calculate the average measurement at each location.\n\nbeach_monthly = beach_df.resample(\"MS\").mean()\n\nbeach_monthly.head()\n\n\n\n\n\n\n\n\nlocation_1\nlocation_2\nlocation_3\nlocation_4\nlocation_5\n\n\n\n\n1980-01-01\n99.4\n75.0\n92.5\n27.5\n63.4\n\n\n1980-02-01\n98.9\n77.3\n92.6\n24.5\n63.2\n\n\n1980-03-01\n95.2\n76.8\n93.8\n29.3\n71.3\n\n\n1980-04-01\n99.9\n67.7\n102.5\n27.8\n72.4\n\n\n1980-05-01\n80.7\n63.9\n82.5\n12.5\n73.3"
+  },
+  {
+    "objectID": "posts/beach-width-analysis/index.html#comparing-measurements-with-the-average",
+    "href": "posts/beach-width-analysis/index.html#comparing-measurements-with-the-average",
+    "title": "Exploring Beach Width Changes Over Time",
+    "section": "Comparing Measurements with the Average",
+    "text": "Comparing Measurements with the Average\nI subtract each location’s overall monthly average from its monthly measurements. A negative value means the measurement was below that location’s average, while a positive value means it was above average.\n\nbeach_difference = beach_monthly - beach_monthly.mean()\n\nbeach_difference.head()\n\n\n\n\n\n\n\n\nlocation_1\nlocation_2\nlocation_3\nlocation_4\nlocation_5\n\n\n\n\n1980-01-01\n4.796227\n3.947666\n17.102274\n-4.109321\n8.471382\n\n\n1980-02-01\n4.296227\n6.247666\n17.202274\n-7.109321\n8.271382\n\n\n1980-03-01\n0.596227\n5.747666\n18.402274\n-2.309321\n16.371382\n\n\n1980-04-01\n5.296227\n-3.352334\n27.102274\n-3.809321\n17.471382\n\n\n1980-05-01\n-13.903773\n-7.152334\n7.102274\n-19.109321\n18.371382"
+  },
+  {
+    "objectID": "posts/beach-width-analysis/index.html#preparing-the-data-for-visualization",
+    "href": "posts/beach-width-analysis/index.html#preparing-the-data-for-visualization",
+    "title": "Exploring Beach Width Changes Over Time",
+    "section": "Preparing the Data for Visualization",
+    "text": "Preparing the Data for Visualization\nI reshape the data so that each row contains a date, a location, and its measurement difference. This will let me display all five locations in one graph.\n\nbeach_long = (\n    beach_difference\n    .reset_index()\n    .melt(\n        id_vars=\"index\",\n        var_name=\"location\",\n        value_name=\"difference\"\n    )\n)\n\nbeach_long.head()\n\n\n\n\n\n\n\n\nindex\nlocation\ndifference\n\n\n\n\n0\n1980-01-01\nlocation_1\n4.796227\n\n\n1\n1980-02-01\nlocation_1\n4.296227\n\n\n2\n1980-03-01\nlocation_1\n0.596227\n\n\n3\n1980-04-01\nlocation_1\n5.296227\n\n\n4\n1980-05-01\nlocation_1\n-13.903773"
+  },
+  {
+    "objectID": "posts/beach-width-analysis/index.html#visualizing-beach-width-changes",
+    "href": "posts/beach-width-analysis/index.html#visualizing-beach-width-changes",
+    "title": "Exploring Beach Width Changes Over Time",
+    "section": "Visualizing Beach Width Changes",
+    "text": "Visualizing Beach Width Changes\nI use a heatmap to compare monthly beach measurements across the five locations. Each row represents one location, and each coloured cell represents one month. Blue indicates a measurement above that location’s overall average, while red indicates a measurement below its average.\n\nimport altair as alt\n\nbeach_chart = (\n    alt.Chart(beach_long)\n    .mark_rect()\n    .encode(\n        x=alt.X(\"yearmonth(index):O\", title=\"Month\"),\n        y=alt.Y(\"location:N\", title=\"Beach location\"),\n        color=alt.Color(\n            \"difference:Q\",\n            title=\"Difference from average\",\n            scale=alt.Scale(scheme=\"redblue\", domainMid=0)\n        ),\n        tooltip=[\n            alt.Tooltip(\"index:T\", title=\"Month\", format=\"%B %Y\"),\n            alt.Tooltip(\"location:N\", title=\"Location\"),\n            alt.Tooltip(\"difference:Q\", title=\"Difference\", format=\".1f\")\n        ]\n    )\n    .properties(\n        title=\"Monthly Beach Measurements Relative to Average\",\n        width=700,\n        height=180\n    )\n)\n\nbeach_chart"
+  },
+  {
+    "objectID": "posts/beach-width-analysis/index.html#what-i-learned",
+    "href": "posts/beach-width-analysis/index.html#what-i-learned",
+    "title": "Exploring Beach Width Changes Over Time",
+    "section": "What I Learned",
+    "text": "What I Learned\nThe heatmap shows that beach measurements do not change in the same way at all five locations. Some months are above average at one location but below average at another. Comparing monthly differences from each location’s average shows how beach measurements change over time, while taking into account the different average measurements at the five locations."
   },
   {
     "objectID": "about.html",
